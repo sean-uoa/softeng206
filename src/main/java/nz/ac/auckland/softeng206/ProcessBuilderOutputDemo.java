@@ -11,7 +11,6 @@ public class ProcessBuilderOutputDemo {
 				
 		try {
 			ProcessBuilder builder = new ProcessBuilder("ls", "-l", "/usr");
-//			ProcessBuilder builder = new ProcessBuilder("wget", "http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4");
 			Process process = builder.start();
 			
 			InputStream stdout = process.getInputStream();
@@ -23,12 +22,12 @@ public class ProcessBuilderOutputDemo {
 			while ((line = stderrBuffered.readLine()) != null ) {
 				System.out.println(line);
 			}
+			stderrBuffered.close();
+			
 			while ((line = stdoutBuffered.readLine()) != null ) {
 				System.out.println(line);
 			}
-			
 			stdoutBuffered.close();
-			stderrBuffered.close();
 		}
 		catch (IOException ioe) {
 			ioe.printStackTrace();

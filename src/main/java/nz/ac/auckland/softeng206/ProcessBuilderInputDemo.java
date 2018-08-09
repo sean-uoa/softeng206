@@ -10,24 +10,17 @@ import java.io.PrintWriter;
 public class ProcessBuilderInputDemo {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 		try {
 			
-	        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	        System.out.print("Enter cmd: ");
-	        String cmd = br.readLine();
-			
-//			ProcessBuilder builder = new ProcessBuilder("wc");
-	        ProcessBuilder builder = new ProcessBuilder(cmd);
+			ProcessBuilder builder = new ProcessBuilder("wc");
 			Process process = builder.start();
 			
-			/*OutputStream in = process.getOutputStream();
+			OutputStream in = process.getOutputStream();
 			PrintWriter stdin = new PrintWriter(in);
 			
 			stdin.println("This is one line");
 			stdin.println("And another");
-			stdin.close();*/
+			stdin.close();
 			
 			InputStream stdout = process.getInputStream();
 			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
@@ -39,7 +32,5 @@ public class ProcessBuilderInputDemo {
 		catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-	
 	}
-
 }

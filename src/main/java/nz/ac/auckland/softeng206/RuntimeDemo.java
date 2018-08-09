@@ -10,7 +10,7 @@ public class RuntimeDemo {
 	public static void main(String[] args) {
 		try {
 			// The command
-			String cmd = "wget http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4";
+			String cmd = "wget http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4 -P dat/";
 			
 			// Create a separate process
 			Process process = Runtime.getRuntime().exec(cmd);
