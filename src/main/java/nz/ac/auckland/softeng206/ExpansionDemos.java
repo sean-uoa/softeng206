@@ -9,9 +9,15 @@ public class ExpansionDemos {
 
 	public static void main(String[] args) {
 		try {
+			// Expansion failure examples
 			ProcessBuilder builder = new ProcessBuilder("ls", "~");
 //			ProcessBuilder builder = new ProcessBuilder("echo", "$HOME");
 //			ProcessBuilder builder = new ProcessBuilder("echo", "$((9+2))");
+			
+			// Expansion success examples
+//			ProcessBuilder builder = new ProcessBuilder("bash", "-c", "echo $(( 9+2 ))");
+//			ProcessBuilder builder = new ProcessBuilder("bash", "-c", "ps aux | grep java");
+			
 			Process process = builder.start();
 			
 			InputStream stdout = process.getInputStream();
