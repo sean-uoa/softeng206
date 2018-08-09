@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class ProcessBuilderOutputDemo {
+public class ExpansionDemos {
 
 	public static void main(String[] args) {
-				
 		try {
-			ProcessBuilder builder = new ProcessBuilder("ls", "-l", "/usr");
+			ProcessBuilder builder = new ProcessBuilder("ls", "~");
+//			ProcessBuilder builder = new ProcessBuilder("echo", "$HOME");
+//			ProcessBuilder builder = new ProcessBuilder("echo", "$((9+2))");
 			Process process = builder.start();
 			
 			InputStream stdout = process.getInputStream();
@@ -32,5 +33,7 @@ public class ProcessBuilderOutputDemo {
 		catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+
 	}
+
 }
