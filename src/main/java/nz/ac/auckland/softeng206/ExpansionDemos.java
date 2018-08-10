@@ -13,6 +13,7 @@ public class ExpansionDemos {
 			ProcessBuilder builder = new ProcessBuilder("ls", "~");
 //			ProcessBuilder builder = new ProcessBuilder("echo", "$HOME");
 //			ProcessBuilder builder = new ProcessBuilder("echo", "$((9+2))");
+//			ProcessBuilder builder = new ProcessBuilder("cd", "..");
 			
 			// Expansion success examples
 //			ProcessBuilder builder = new ProcessBuilder("bash", "-c", "echo $(( 9+2 ))");
