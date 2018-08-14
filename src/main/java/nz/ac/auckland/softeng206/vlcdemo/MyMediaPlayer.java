@@ -39,19 +39,19 @@ public class MyMediaPlayer {
     	
     	pauseButton.addActionListener(new ActionListener() {
     	    public void actionPerformed(ActionEvent e) {
-    	    	
+    	    	mediaPlayerComponent.getMediaPlayer().pause();
     	    }
     	});
 
     	rewindButton.addActionListener(new ActionListener() {
     	    public void actionPerformed(ActionEvent e) {
-    	    	
+    	    	mediaPlayerComponent.getMediaPlayer().skip(-3000);
     	    }
     	});
 
     	skipButton.addActionListener(new ActionListener() {
     	    public void actionPerformed(ActionEvent e) {
-    	    	
+    	    	mediaPlayerComponent.getMediaPlayer().skip(2000);
     	    }
     	});
 
