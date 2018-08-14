@@ -1,6 +1,8 @@
 package nz.ac.auckland.softeng206.vlcdemo;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -34,6 +36,24 @@ public class MyMediaPlayer {
     	controlsPane.add(rewindButton);
     	JButton skipButton = new JButton("Skip");
     	controlsPane.add(skipButton);
+    	
+    	pauseButton.addActionListener(new ActionListener() {
+    	    public void actionPerformed(ActionEvent e) {
+    	    	
+    	    }
+    	});
+
+    	rewindButton.addActionListener(new ActionListener() {
+    	    public void actionPerformed(ActionEvent e) {
+    	    	
+    	    }
+    	});
+
+    	skipButton.addActionListener(new ActionListener() {
+    	    public void actionPerformed(ActionEvent e) {
+    	    	
+    	    }
+    	});
 
     	contentPane.add(controlsPane, BorderLayout.NORTH);
     	
