@@ -1,4 +1,4 @@
-package nz.ac.auckland.softeng206;
+package nz.ac.auckland.softeng206.javaprocessdemo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
