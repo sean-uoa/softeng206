@@ -23,6 +23,8 @@ public class MyMediaPlayer {
         frame.setContentPane(mediaPlayerComponent);
         
         frame.setVisible(true);
+        
+        mediaPlayerComponent.getMediaPlayer().playMedia("dat/BigBuckBunny_320x180.mp4");
 
 	}
     
