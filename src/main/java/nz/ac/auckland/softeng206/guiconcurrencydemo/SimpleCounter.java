@@ -45,6 +45,12 @@ public class SimpleCounter extends JFrame {
                      if (stop) break;
                      tfCount.setText(count + "");
                      ++count;
+                     
+                     // Suspend this thread via sleep() and yield control to other threads.
+                     // Also provide the necessary delay.
+                     try {
+                        sleep(10);  // milliseconds
+                     } catch (InterruptedException ex) {}
                   }
                }
             };
