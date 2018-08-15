@@ -8,11 +8,16 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
+import uk.co.caprica.vlcj.player.MediaPlayer;
+import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 
 public class MyMediaPlayer {
 
@@ -29,13 +34,55 @@ public class MyMediaPlayer {
     	mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
     	contentPane.add(mediaPlayerComponent, BorderLayout.CENTER);
     	
-    	JPanel controlsPane = new JPanel();
+    	mediaPlayerComponent.getMediaPlayer().addMediaPlayerEventListener(
+    		    new MediaPlayerEventAdapter() {
+    		    	
+    		    	@Override
+    		    	public void playing(MediaPlayer mediaPlayer) {
+    		    	    SwingUtilities.invokeLater(new Runnable() {
+    		    	        public void run() {
+    		    	            frame.setTitle(String.format(
+    		    	                "My First Media Player - %s",
+    		    	                mediaPlayerComponent.getMediaPlayer().getMediaMeta().getTitle()
+    		    	            ));
+    		    	        }
+    		    	    });
+    		    	}
+    		    	
+    		    	@Override
+    		    	public void finished(MediaPlayer mediaPlayer) {
+    		    	    SwingUtilities.invokeLater(new Runnable() {
+    		    	        public void run() {
+    		    	        	frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    		    	        }
+    		    	    });
+    		    	}
+
+    		    	@Override
+    		    	public void error(MediaPlayer mediaPlayer) {
+    		    	    SwingUtilities.invokeLater(new Runnable() {
+    		    	        public void run() {
+    		    	            JOptionPane.showMessageDialog(
+    		    	                frame,
+    		    	                "Failed to play media",
+    		    	                "Error",
+    		    	                JOptionPane.ERROR_MESSAGE
+    		    	            );
+    		    	            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    		    	        }
+    		    	    });
+    		    	}
+
+    		    }
+    		);
+    	
+    	JPanel controlsPanel = new JPanel();
     	JButton pauseButton = new JButton("Pause");
-    	controlsPane.add(pauseButton);
+    	controlsPanel.add(pauseButton);
     	JButton rewindButton = new JButton("Rewind");
-    	controlsPane.add(rewindButton);
+    	controlsPanel.add(rewindButton);
     	JButton skipButton = new JButton("Skip");
-    	controlsPane.add(skipButton);
+    	controlsPanel.add(skipButton);
     	
     	pauseButton.addActionListener(new ActionListener() {
     	    public void actionPerformed(ActionEvent e) {
@@ -55,7 +102,19 @@ public class MyMediaPlayer {
     	    }
     	});
 
-    	contentPane.add(controlsPane, BorderLayout.NORTH);
+    	contentPane.add(controlsPanel, BorderLayout.NORTH);
+    	
+    	JPanel statusPanel = new JPanel();
+    	final JLabel statusLabel = new JLabel();
+    	statusPanel.add(statusLabel);
+    	
+    	Timer timer = new Timer(100, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	statusLabel.setText((int)(mediaPlayerComponent.getMediaPlayer().getTime()/1000.0)+" s");
+            }
+        });
+    	
+    	contentPane.add(statusPanel, BorderLayout.SOUTH);
     	
     	frame = new JFrame("My First Media Player");
     	frame.setBounds(100, 100, 600, 400)	;
@@ -73,6 +132,8 @@ public class MyMediaPlayer {
     	frame.setVisible(true);
     	
     	mediaPlayerComponent.getMediaPlayer().playMedia("dat/BigBuckBunny_320x180.mp4");
+    	
+    	timer.start();
     	
 	}
     
