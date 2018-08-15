@@ -36,11 +36,19 @@ public class SimpleCounter extends JFrame {
       btnStart.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent evt) {
             stop = false;
-            for (int i = 0; i < 10000000; ++i) {
-               if (stop) break;  // check if STOP button has been pushed, which changes the stop flag to true
-               tfCount.setText(count + "");
-               ++count;
-            }
+            
+            // Create our own Thread to do the counting
+            Thread t = new Thread() {
+               @Override
+               public void run() {  // override the run() to specify the running behavior
+                  for (int i = 0; i < 10000000; ++i) {
+                     if (stop) break;
+                     tfCount.setText(count + "");
+                     ++count;
+                  }
+               }
+            };
+            t.start();  // call back run()
          }
       });
       
