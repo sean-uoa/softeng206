@@ -1,3 +1,9 @@
+/**
+ * The demo codes are adopted from the examples originally used in 
+ * http://capricasoftware.co.uk/#/projects/vlcj/tutorial
+ * */
+
+
 package nz.ac.auckland.softeng206.vlcdemo;
 
 import java.awt.BorderLayout;
@@ -22,11 +28,14 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 public class MyMediaPlayer {
 
 	private static final String NATIVE_LIBRARY_SEARCH_PATH = "/usr/lib";
+	private String mediaFileNameString;
 
     private final JFrame frame;
     private final EmbeddedMediaPlayerComponent mediaPlayerComponent;
     
-	public MyMediaPlayer() {
+	public MyMediaPlayer(String mediaFileNameString) {
+		
+		this.mediaFileNameString = mediaFileNameString;
 		
 		JPanel contentPane = new JPanel();
     	contentPane.setLayout(new BorderLayout());
@@ -131,7 +140,7 @@ public class MyMediaPlayer {
     	frame.setContentPane(contentPane);
     	frame.setVisible(true);
     	
-    	mediaPlayerComponent.getMediaPlayer().playMedia("dat/BigBuckBunny_320x180.mp4");
+    	mediaPlayerComponent.getMediaPlayer().playMedia(mediaFileNameString);
     	
     	timer.start();
     	
@@ -141,10 +150,12 @@ public class MyMediaPlayer {
 		
 		new NativeDiscovery().discover();  // To try and automatically locate the libvlc native libraries with the default strategies
 		
+		final String mediaFileName = args[0].trim();
+		
 		SwingUtilities.invokeLater(new Runnable() {  // Use the EDT thread
             public void run() {
             	
-                new MyMediaPlayer();
+                new MyMediaPlayer(mediaFileName);
                 
             }
         });

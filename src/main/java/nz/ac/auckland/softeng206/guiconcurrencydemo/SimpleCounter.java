@@ -1,3 +1,8 @@
+/**
+ * The demo codes are adopted from the examples originally used in 
+ * http://www.ntu.edu.sg/home/ehchua/programming/java/j5e_multithreading.html
+ * */
+
 package nz.ac.auckland.softeng206.guiconcurrencydemo;
 
 import java.awt.FlowLayout;
