@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-public class SimpleCounter extends JFrame {
+public class UnresponsiveSimpleCounter extends JFrame {
 
 	/** Illustrate Unresponsive UI problem caused by "busy" Event-Dispatching Thread */
 		
@@ -25,7 +25,7 @@ public class SimpleCounter extends JFrame {
    private int count = 1;
  
    /** Constructor to setup the GUI components */
-   public SimpleCounter() {
+   public UnresponsiveSimpleCounter() {
 	   
 	   JPanel contentPane = new JPanel();
 	   contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
@@ -41,25 +41,11 @@ public class SimpleCounter extends JFrame {
       btnStart.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent evt) {
             stop = false;
-            
-            // Create our own Thread to do the counting
-            Thread t = new Thread() {
-               @Override
-               public void run() {  // override the run() to specify the running behavior
-                  for (int i = 0; i < 10000000; ++i) {
-                     if (stop) break;
-                     tfCount.setText(count + "");
-                     ++count;
-                     
-                     // Suspend this thread via sleep() and yield control to other threads.
-                     // Also provide the necessary delay.
-                     try {
-                        sleep(10);  // milliseconds
-                     } catch (InterruptedException ex) {}
-                  }
-               }
-            };
-            t.start();  // call back run()
+            for (int i = 0; i < 10000000; ++i) {
+                if (stop) break;
+                tfCount.setText(count + "");
+                ++count;
+            }
          }
       });
       
@@ -82,12 +68,10 @@ public class SimpleCounter extends JFrame {
    
    public static void main(String[] args) {
 	   
-//	   new SimpleCounter();  // Let the constructor do the job
-	   
       // Run GUI codes in Event-Dispatching thread for thread safety
       SwingUtilities.invokeLater(new Runnable() {
          public void run() {
-            new SimpleCounter();  // Let the constructor do the job
+            new UnresponsiveSimpleCounter();  // Let the constructor do the job
          }
       });
    }
