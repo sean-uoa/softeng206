@@ -8,6 +8,7 @@ package nz.ac.auckland.softeng206.guiconcurrencydemo;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,24 +16,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
-public class SimpleCounter extends JFrame {
+public class SwingWorkerCounter extends JFrame {
 
 	/** Illustrate Unresponsive UI problem caused by "busy" Event-Dispatching Thread */
 		
-   private boolean stop = false;  // start or stop the counter
    private JTextField tfCount;
-   private int count = 1;
+   private CountTask countTask;
  
    /** Constructor to setup the GUI components */
-   public SimpleCounter() {
+   public SwingWorkerCounter() {
 	   
 	   JPanel contentPane = new JPanel();
 	   contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 	   
 	   contentPane.add(new JLabel("Counter"));
 	   
-	   tfCount = new JTextField(count + "", 10);
+	   tfCount = new JTextField("0", 10);
 	   tfCount.setEditable(false);
 	   contentPane.add(tfCount);
  
@@ -40,26 +41,7 @@ public class SimpleCounter extends JFrame {
       contentPane.add(btnStart);
       btnStart.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent evt) {
-            stop = false;
-            
-            // Create our own Thread to do the counting
-            Thread t = new Thread() {
-               @Override
-               public void run() {  // override the run() to specify the running behavior
-                  for (int i = 0; i < 10000000; ++i) {
-                     if (stop) break;
-                     tfCount.setText(count + "");
-                     ++count;
-                     
-                     // Suspend this thread via sleep() and yield control to other threads.
-                     // Also provide the necessary delay.
-                     try {
-                        sleep(10);  // milliseconds
-                     } catch (InterruptedException ex) {}
-                  }
-               }
-            };
-            t.start();  // call back run()
+             (countTask = new CountTask()).execute();
          }
       });
       
@@ -67,7 +49,8 @@ public class SimpleCounter extends JFrame {
       contentPane.add(btnStop);
       btnStop.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent evt) {
-            stop = true;  // set the stop flag
+            countTask.cancel(true);
+            countTask = null;
          }
       });
       
@@ -78,6 +61,25 @@ public class SimpleCounter extends JFrame {
       setSize(300, 120);
       
       setVisible(true);
+   }
+   
+   private class CountTask extends SwingWorker<Void, Integer> {
+       @Override
+       protected Void doInBackground() {
+       	int count = 0;
+       	for (int i = 0; i < 10000000; ++i) {
+	            if (!isCancelled()) {
+	            	++count;
+	            }
+               publish(new Integer(count));
+           }
+           return null;
+       }
+
+       @Override
+       protected void process(List<Integer> integers) {
+       	 tfCount.setText(integers.get(integers.size()-1)+"");
+       }
    }
    
    public static void main(String[] args) {
