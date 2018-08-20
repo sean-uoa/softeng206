@@ -41,7 +41,7 @@ public class UnresponsiveSimpleCounter extends JFrame {
       btnStart.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent evt) {
             stop = false;
-            for (int i = 0; i < 10000000; ++i) {
+            for (int i = 0; i < 10000000; ++i) {  // A computation-intensive task
                 if (stop) break;
                 tfCount.setText(count + "");
                 ++count;

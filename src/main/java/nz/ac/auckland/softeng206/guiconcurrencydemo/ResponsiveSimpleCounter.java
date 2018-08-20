@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
 
 public class ResponsiveSimpleCounter extends JFrame {
 
-	/** Illustrate Unresponsive UI problem caused by "busy" Event-Dispatching Thread */
+	/** Illustrate Responsive UI with the use of multithreading technique */
 		
    private boolean stop = false;  // start or stop the counter
    private JTextField tfCount;
@@ -52,7 +52,9 @@ public class ResponsiveSimpleCounter extends JFrame {
                      ++count;
                      
                      // Suspend this thread via sleep() and yield control to other threads.
-                     // Also provide the necessary delay.
+                     // Also provide the necessary delay. 
+                     // This is not compulsory. But when computation power is limited (e.g., single CPU core),
+                     // this thread might affect the UI responsiveness.
                      try {
                         sleep(10);  // milliseconds
                      } catch (InterruptedException ex) {}

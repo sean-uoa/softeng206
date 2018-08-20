@@ -20,7 +20,8 @@ import javax.swing.SwingWorker;
 
 public class SwingWorkerCounter extends JFrame {
 
-	/** Illustrate Unresponsive UI problem caused by "busy" Event-Dispatching Thread */
+	/** Illustrate Responsive UI with the use of SwingWorker class 
+	 * for computation-intensive tasks*/
 		
    private JTextField tfCount;
    private CountTask countTask;
@@ -84,7 +85,7 @@ public class SwingWorkerCounter extends JFrame {
    
    public static void main(String[] args) {
 	   
-//	   new SimpleCounter();  // Let the constructor do the job
+//	   new SimpleCounter();  // Let the constructor do the job, which will also create a EDT
 	   
       // Run GUI codes in Event-Dispatching thread for thread safety
       SwingUtilities.invokeLater(new Runnable() {
